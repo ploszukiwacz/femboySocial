@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /db_files
+Disallow: /assets
+Disallow: /other
+Disallow: /rate_limits
