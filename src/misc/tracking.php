@@ -14,8 +14,8 @@ function sanitize($data) {
 
 
 // Collect visitor details
-// $ip = sanitize($_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP');
-$ip = "Testing";
+$ip = sanitize($_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP');
+// $ip = "Testing";
 $userAgent = sanitize($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown User Agent');
 $referrer = sanitize($_SERVER['HTTP_REFERER'] ?? 'Direct Access');
 $timestamp = date('Y-m-d H:i:s');
