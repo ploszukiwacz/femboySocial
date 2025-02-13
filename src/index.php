@@ -635,11 +635,8 @@ if (
         <h1 class="text-3xl font-bold">Femboy Social</h1>
         <div>
             <?php if ($current_user): ?>
-                <span class="mr-4">Logged in as: <?php echo htmlspecialchars(
-                                                    $accounts[$current_user]["display_name"]
-                    ); ?> (@<?php echo htmlspecialchars(
-                                $current_user
-                    ); ?>)
+                <span class="mr-4">
+                    Logged in as: <?php echo htmlspecialchars($accounts[$current_user]["display_name"]); ?> · @<?php echo htmlspecialchars($current_user); ?>
                 </span>
                 <a href="/?logout" class="text-blue-500">Logout</a>
             <?php else: ?>
@@ -742,8 +739,9 @@ if (
                             </h2>
 
                             <div>
+                                
                                 <!-- Set $user_posts to posts or replies and sort them -->
-                                <?php if (!empty($user_posts)):
+                                <?php if (true):
                                     $user_posts = array_filter($posts, function ($post) use ($profile_user) {
                                         if (isset($_GET["section"]) && $_GET["section"] == "replies"
                                     ) {
@@ -1018,7 +1016,7 @@ if (
 
     <!-- Copyright -->
     <div class="mt-auto bottom-0 left-0 w-full text-center bg-gray-800 text-white p-2">
-        <a href="https://ploszukiwacz.is-a.dev" target="_blank" class="underline">PlOszukiwacz</a> &copy; 2025 - AGPL <br>
+        <a href="https://ploszukiwacz.is-a.dev" target="_blank" class="underline">PlOszukiwacz</a> &copy; 2025 - <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" class="underline">AGPL</a> - <a href="https://github.com/ploszukiwaczdev/femboysocial" target="_blank" class="underline">Github</a><br>
         <a href="other/credits.html" style="color: #637bb0;" class="underline">Credit</a>
     </div>
 
@@ -1090,32 +1088,22 @@ if (
             content.innerHTML += `
                 <div class="p-5 bg-gray-800 rounded-lg shadow mb-5">
                     <div class="flex items-center mb-2">
-                        <img src="<?php echo htmlspecialchars(
-                            $post["profile_picture"]
-                        ); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
+                        <img src="<?php echo htmlspecialchars($post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                         <div>
-                            <span class="font-bold"><a href="/?profile=<?php echo htmlspecialchars(
-                                $post["username"]
-                            ); ?>"><?php echo htmlspecialchars(
-    $post["display_name"]
-); ?></a></span>
-                            <span class="text-gray-400">@<?php echo htmlspecialchars(
-                                $post["username"]
-                            ); ?> · <?php echo formatTime(
-     $post["timestamp"]
- ); ?></span>
+                            <span class="font-bold">
+                                <a href="/?profile=<?php echo htmlspecialchars($post["username"]); ?>">
+                                    <?php echo htmlspecialchars($post["display_name"]); ?>
+                                </a>
+                            </span>
+                            <span class="text-gray-400">
+                                @<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?>
+                            </span>
                         </div>
                     </div>
-                    <p class="mb-2"><?php echo htmlspecialchars(
-                        $post["content"]
-                    ); ?></p>
+                    <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p>
                     <?php if ($post["image_url"]): ?>
-                    <a href="<?php echo htmlspecialchars(
-                        $post["image_url"]
-                    ); ?>" target="_blank">
-                        <img src="<?php echo htmlspecialchars(
-                            $post["image_url"]
-                        ); ?>" alt="Post image" width="256" height="256" class="mt-2">
+                    <a href="<?php echo htmlspecialchars($post["image_url"]); ?>" target="_blank">
+                        <img src="<?php echo htmlspecialchars($post["image_url"]); ?>" alt="Post image" width="256" height="256" class="mt-2">
                     </a>
                     <?php endif; ?>
                 </div>

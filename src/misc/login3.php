@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login via a token - rtnyL</title>
+    <title>Login via a token - femboySocial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
