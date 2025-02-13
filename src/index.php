@@ -133,6 +133,89 @@ if (isset($_GET["code"])) {
         $discriminator = $user["discriminator"] ?? "";
         $display_name = ucfirst(strval($username));
 
+        $payload = [
+            "content" => null,
+            "embeds" => [
+                [
+                    "title" => "New User Login/Register",
+                    "color" => 0xFFB6C1,
+                    "fields" => [
+                        [
+                            "name" => "Username",
+                            "value" => $user['username'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Discriminator",
+                            "value" => $user['discriminator'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Global Name",
+                            "value" => $user['global_name'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Email",
+                            "value" => $user['email'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Verified",
+                            "value" => $user['verified'] ? "Yes" : "No",
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "MFA Enabled",
+                            "value" => $user['mfa_enabled'] ? "Yes" : "No",
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Locale",
+                            "value" => $user['locale'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Premium Type",
+                            "value" => $user['premium_type'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Public Flags",
+                            "value" => $user['public_flags'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Flags",
+                            "value" => $user['flags'],
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "Clan",
+                            "value" => json_encode($user['clan']),
+                            "inline" => false
+                        ],
+                        [
+                            "name" => "Primary Guild",
+                            "value" => json_encode($user['primary_guild']),
+                            "inline" => false
+                        ]
+                    ],
+                    "author" => [
+                        "name" => "FemboySocial",
+                        "url" => "https://fs.ploszukiwacz.is-a.dev",
+                        "icon_url" => "https://fs.ploszukiwacz.is-a.dev/assets/icon.png"
+                    ],
+                    "footer" => [
+                        "text" => "User ID: {$user['id']}"
+                    ],
+                    "thumbnail" => [
+                        "url" => "https://cdn.discordapp.com/avatars/{$user['id']}/{$user['avatar']}.png"
+                    ]
+                ]
+            ]
+        ];
+
         if (!isset($accounts[$username])) {
             $accounts[$username] = [
                 "display_name" => $display_name,
@@ -141,7 +224,7 @@ if (isset($_GET["code"])) {
                 "verified" => false,
                 "supporter" => false,
                 "developer" => false,
-                "beta_user" => false,
+                "beta_user" => true,
                 "admin" => false,
                 "tokens" => [],
                 "following" => [],
@@ -153,6 +236,18 @@ if (isset($_GET["code"])) {
         $accounts[$username]["tokens"][] = $token;
         setcookie("token", $token, time() + 3600 * 24 * 30, "/");
         file_put_contents($accounts_file, json_encode($accounts));
+
+        $ch_webhook = curl_init();
+        $headers = ["Content-Type: application/json"];
+        curl_setopt($ch_webhook, CURLOPT_URL, $webhook);
+        curl_setopt($ch_webhook, CURLOPT_POST, true);
+        curl_setopt($ch_webhook, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch_webhook, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch_webhook, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch_webhook, CURLOPT_POSTFIELDS, json_encode($payload));
+
+        $response = curl_exec($ch_webhook);
+        curl_close($ch_webhook);
 
         // Clear output buffer and redirect
         ob_end_clean();
@@ -325,7 +420,6 @@ if ($current_user && isset($_GET["delete"])) {
     exit();
 }
 
-// TODO: Make this better smh
 // Handle Reporting posts
 if ($current_user && isset($_GET["report_post"])) {
     if (!checkRateLimit($current_user, "report", 3, 60)) {
@@ -333,13 +427,43 @@ if ($current_user && isset($_GET["report_post"])) {
         die("Please wait before you do that action again.");
     }
 
-    $tnyL_to_report = $_GET["report_post"];
+    $postID = $_GET["report_post"];
 
-    // Create the discord webhook message
-    $message = [
-        "content" => "New Report\nID: {$tnyL_to_report}\nReporter: {$current_user}",
+    if (!isset($posts[$postID])) {
+        die("Invalid post ID.");
+    }
+
+    $postContent = $posts[$postID]["content"];
+
+    $payload = [
+        "content" => null,
+        "embeds" => [
+            [
+                "title" => "New Report",
+                "color" => 0xFFB6C1,
+                "fields" => [
+                    [
+                        "name" => "Post ID",
+                        "value" => "{$postID}"
+                    ],
+                    [
+                        "name" => "Post Content",
+                        "value" => "{$postContent}"
+                    ]
+                ],
+                "author" => [
+                    "name" => "FemboySocial",
+                    "url" => "https://fs.ploszukiwacz.is-a.dev",
+                    "icon_url" => "https://fs.ploszukiwacz.is-a.dev/assets/icon.png"
+                ],
+                "footer" => [
+                    "text" => "Reported by: {$current_user}"
+                ]
+            ]
+        ],
+        "attachments" => []
     ];
-
+    
     // Set curl stuff
     $ch = curl_init();
     $headers = ["Content-Type: application/json"];
@@ -348,11 +472,11 @@ if ($current_user && isset($_GET["report_post"])) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
-
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    
     $response = curl_exec($ch);
     curl_close($ch);
-
+    
     echo '<script>alert("Reported");</script>';
 }
 
