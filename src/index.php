@@ -238,6 +238,11 @@ if ($current_user && isset($_POST['content'])) {
         die('Error: Invalid post ID for reply.');
     }
 
+    // TODO: Make this better
+    if (empty($content)) {
+        die('Error: Content is empty.');
+    }
+
     // Validate content
     if (containsOnlyValidCharacters($content)) {
         $new_post = [
