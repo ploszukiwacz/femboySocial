@@ -1,14 +1,3 @@
-@font-face {
-    font-family: 'maplemono';
-    src: url('/assets/font.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-* {
-    font-family: 'maplemono';
-}
-
 .modal {
     display: none;
     position: fixed;

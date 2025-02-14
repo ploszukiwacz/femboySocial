@@ -1,4 +1,15 @@
-/* Critical styles that should load first */
+@font-face {
+    font-family: 'maplemono';
+    src: url('/assets/font.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'maplemono';
+    font-display: swap;
+}
+
 :root {
     --mocha-base: #1e1e2e;
     --mocha-text: #cdd6f4;

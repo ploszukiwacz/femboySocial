@@ -726,6 +726,8 @@ if (
     <!-- Resource hints -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
+    <link rel="preload" href="assets/font.woff2" as="font" type="font/woff2" crossorigin>
     
     <!-- Critical CSS -->
     <link rel="stylesheet" href="/assets/css/critical.css">
@@ -787,7 +789,7 @@ if (
             document.querySelectorAll('.loading-placeholder').forEach(el => el.remove());
         }
     </script>
-    <link rel="stylesheet" href="index.css">
+    <link defer rel="stylesheet" href="index.css">
 </head>
 <body class="bg-mocha-base text-mocha-text flex-col min-h-screen">
     <!-- URI Missmatch -->
@@ -815,11 +817,11 @@ if (
             $accounts[$_COOKIE["token"]]["banned"]
         ): ?>
             <div class="fixed inset-0 bg-mocha-crust bg-opacity-75 flex items-center justify-center">
-            <div class="bg-mocha-surface0 p-8 rounded-lg shadow-lg text-center">
-            <h2 class="text-2xl font-bold mb-4">Your Account is gone</h2>
-            <p class="mb-4">Contact Support.</p>
-            <a href="https://discord.com/" class="text-mocha-blue">Support</a>
-        </div>
+                <div class="bg-mocha-surface0 p-8 rounded-lg shadow-lg text-center">
+                <h2 class="text-2xl font-bold mb-4">Your Account is gone</h2>
+                <p class="mb-4">Contact Support.</p>
+                <a href="https://discord.com/" class="text-mocha-blue">Support</a>
+            </div>
     </div>
     <?php endif; ?>
     
@@ -869,8 +871,7 @@ if (
             <div class="w-3/4 ml-4">
                 <?php if (isset($_GET["profile"])): ?>
                     <!-- Display Profile -->
-                    <?php $profile_user = $_GET["profile"];
-                    if (isset($accounts[$profile_user])): ?>
+                    <?php $profile_user = $_GET["profile"]; if (isset($accounts[$profile_user])): ?>
                             <!-- The user exists -->
                             <div class="mt-4 bg-mocha-surface0 p-4 rounded-lg shadow">
                                 <h2 class="text-xl font-bold mb-4">
@@ -972,8 +973,11 @@ if (
                                                         <span class="text-mocha-subtext0">@<?php echo htmlspecialchars($original_post["username"]); ?> · <?php echo formatTime($original_post["timestamp"]); ?></span>
                                                     </div>
                                                 </div>
-
-                                                <p class="mb-2"><?php echo htmlspecialchars($original_post["content"]); ?></p>
+                                                
+                                                <textarea rows="4"
+                                                            class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                                                            readonly><?php echo htmlspecialchars($original_post["content"]); ?></textarea></textarea>
+                                                <!-- <p class="mb-2"><?php echo htmlspecialchars($original_post["content"]); ?></p> -->
                                                 <?php if ($original_post["image_url"]): ?>
                                                     <a href="<?php echo htmlspecialchars($original_post["image_url"]); ?>" target="_blank">
                                                         <img src="<?php echo htmlspecialchars($original_post["image_url"]); ?>" alt="Post image" width="256" height="256" class="mt-2">
@@ -988,8 +992,11 @@ if (
                                                             <span class="text-mocha-subtext0">@<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?></span>
                                                         </div>
                                                     </div>
-
-                                                    <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p>
+                                                    
+                                                    <textarea rows="4"
+                                                            class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                                                            readonly><?php echo htmlspecialchars($post["content"]); ?></textarea>
+                                                    <!-- <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p> -->
                                                     <?php if ($post["image_url"]): ?>
                                                         <a href="<?php echo htmlspecialchars($post["image_url"]); ?>" target="_blank">
                                                             <img src="<?php echo htmlspecialchars($post["image_url"]); ?>" alt="Reply image" width="256" height="256" class="mt-2">
@@ -1007,7 +1014,10 @@ if (
                                                     </div>
                                                 </div>
 
-                                                <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p>
+                                                <textarea rows="4"
+                                                    class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                                                    readonly><?php echo htmlspecialchars($post["content"]); ?></textarea>
+                                                <!-- <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p> -->
                                                 <!-- Image check -->
                                                 <?php if ($post["image_url"]): ?>
                                                     <a href="<?php echo htmlspecialchars($post["image_url"]); ?>" target="_blank">
@@ -1094,7 +1104,13 @@ if (
                         <h2 class="text-xl font-bold mb-4">Create a new post</h2>
                         <form action="/" method="post">
                             <!-- Textarea -->
-                            <textarea name="content" id="content" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="What do you want to post?" oninput="updateCharacterCount()"></textarea>
+                            <textarea name="content" 
+                                    id="content" 
+                                    rows="4" 
+                                    maxlength="260"
+                                    class="resize-none mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" 
+                                    placeholder="What do you want to post?" 
+                                    oninput="updateCharacterCount()"></textarea>
                                 
                             <!-- Char counter -->
                             <small id="charCount" class="text-mocha-subtext0">0/260 characters</small>
@@ -1145,10 +1161,7 @@ if (
 
                                                     <!-- Time Formating -->
                                                     <span class="text-mocha-subtext0">
-                                                        @
-                                                        <?php echo htmlspecialchars($post["username"]); ?>
-                                                         · 
-                                                        <?php echo formatTime($post["timestamp"]); ?>
+                                                        @<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?>
                                                     </span>
 
                                                     <!-- Report -->
@@ -1160,7 +1173,10 @@ if (
                                             </div>
 
                                             <!-- Post Content -->
-                                            <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p>
+                                            <textarea rows="4"
+                                                    class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                                                    readonly><?php echo htmlspecialchars($post["content"]); ?></textarea>
+                                            <!-- <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p> -->
                                             
                                             <!-- Image Embed-->
                                             <?php if ($post["image_url"]): ?>
@@ -1235,7 +1251,7 @@ if (
                 </div>
                 <div class="mb-4">
                     <label class="block text-mocha-subtext0">Bio:</label>
-                    <textarea name="bio" rows="4" maxlength="60" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
+                    <textarea name="bio" rows="4" maxlength="60" class="resize-none mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                         <?php
                         // Check if current_user is set and exists in $accounts
                         if (isset($current_user) && isset($accounts[$current_user]) && is_array($accounts[$current_user]) && isset($accounts[$current_user]["bio"])) {
@@ -1261,7 +1277,7 @@ if (
             <span class="close" onclick="document.getElementById('repliesModal').style.display='none'">&times;</span>
             <div id="repliesContent"></div>
             <form action="/" method="post">
-                <textarea name="content" id="replyContent" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="Write your reply..."></textarea>
+                <textarea name="content" id="replyContent" rows="4" maxlength="260" class="resize-none mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="Write your reply..."></textarea>
                 <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Reply</button>
                 <input type="hidden" name="replying_to" id="replyingTo" value="">
             </form>
@@ -1293,7 +1309,9 @@ if (
                             </span>
                         </div>
                     </div>
-                    <p class="mb-2"><?php echo htmlspecialchars($post["content"]); ?></p>
+                    <textarea rows="4"
+                            class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                            readonly><?php echo htmlspecialchars($post["content"]); ?></textarea>
                     <?php if ($post["image_url"]): ?>
                     <a href="<?php echo htmlspecialchars($post["image_url"]); ?>" target="_blank">
                         <img src="<?php echo htmlspecialchars($post["image_url"]); ?>" alt="Post image" width="256" height="256" class="mt-2">
@@ -1327,7 +1345,9 @@ if (
 
                 </div>
 
-                    <p class="mb-2">` + reply.content + `</p>
+                    <textarea rows="4"
+                        class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50 resize-none" 
+                        readonly>` + reply.content + `</textarea>
                     <div class="flex space-x-4">
                         <a href="/?like=` + reply.id + `" class="text-mocha-blue">Like (` + (reply.likes || 0) + `)</a>
                         <?php if (
