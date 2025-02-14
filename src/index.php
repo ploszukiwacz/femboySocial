@@ -658,7 +658,7 @@ if (
 
                 foreach ($accounts as $username => $account) {
                     echo "<tr>";
-                    echo "<td>" . htmlspecialchars($username) . "</td>"; // Escape username for security
+                    echo "<td>" . "<a class='underline' href='/?profile=" . htmlspecialchars($username) . "'>" . htmlspecialchars($username) . "</a>" . "</td>"; // Escape username for security
                     echo "<td>" .
                         htmlspecialchars($account["display_name"]) .
                         "</td>"; // Escape display name
@@ -723,14 +723,52 @@ if (
 
     <title>Femboy Social (BETA)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mocha: {
+                            rosewater: '#f5e0dc',
+                            flamingo: '#f2cdcd',
+                            pink: '#f5c2e7',
+                            mauve: '#cba6f7',
+                            red: '#f38ba8',
+                            maroon: '#eba0ac',
+                            peach: '#fab387',
+                            yellow: '#f9e2af',
+                            green: '#a6e3a1',
+                            teal: '#94e2d5',
+                            sky: '#89dceb',
+                            sapphire: '#74c7ec',
+                            blue: '#89b4fa',
+                            lavender: '#b4befe',
+                            text: '#cdd6f4',
+                            subtext1: '#bac2de',
+                            subtext0: '#a6adc8',
+                            overlay2: '#9399b2',
+                            overlay1: '#7f849c',
+                            overlay0: '#6c7086',
+                            surface2: '#585b70',
+                            surface1: '#45475a',
+                            surface0: '#313244',
+                            base: '#1e1e2e',
+                            mantle: '#181825',
+                            crust: '#11111b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="index.css">
 </head>
-<body class="bg-gray-900 text-white flex-col min-h-screen">
+<body class="bg-mocha-base text-mocha-text flex-col min-h-screen">
     <!-- URI Missmatch -->
     <div>
         <?php if ($uriMissmatch): ?>
-            <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
-                <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+            <div class="fixed inset-0 bg-mocha-crust bg-opacity-75 flex items-center justify-center">
+                <div class="bg-mocha-surface0 p-8 rounded-lg shadow-lg text-center">
                     <h2 class="text-2xl font-bold mb-4">URI Missmatch</h2>
                     <p class="mb-4">The URI in the .env file does not match the current URI.</p>
                     <p class="mb-4">Please update the URI in the .env file to match the current URI.</p>
@@ -750,11 +788,11 @@ if (
             isset($accounts[$_COOKIE["token"]]) &&
             $accounts[$_COOKIE["token"]]["banned"]
         ): ?>
-            <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
-            <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+            <div class="fixed inset-0 bg-mocha-crust bg-opacity-75 flex items-center justify-center">
+            <div class="bg-mocha-surface0 p-8 rounded-lg shadow-lg text-center">
             <h2 class="text-2xl font-bold mb-4">Your Account is gone</h2>
             <p class="mb-4">Contact Support.</p>
-            <a href="https://discord.com/" class="text-blue-500">Support</a>
+            <a href="https://discord.com/" class="text-mocha-blue">Support</a>
         </div>
     </div>
     <?php endif; ?>
@@ -767,12 +805,12 @@ if (
                 <span class="mr-4">
                     Logged in as: <?php echo htmlspecialchars($accounts[$current_user]["display_name"]); ?>
                 </span>
-                <a href="/?logout" class="text-blue-500">Logout</a>
+                <a href="/?logout" class="text-mocha-blue">Logout</a>
             <?php else: ?>
             
-            <a href="https://discord.com/api/oauth2/authorize?client_id=<?php echo $client_id; ?>&redirect_uri=<?php echo urlencode($redirect_uri); ?>&response_type=code&scope=identify%20email" class="text-blue-500">Login with Discord</a><br>
-                    <a href="misc/login2.php" class="text-blue-500">Login with Username and Password</a><br>
-                    <a href="misc/login3.php" class="text-blue-500">Login with a token</a>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=<?php echo $client_id; ?>&redirect_uri=<?php echo urlencode($redirect_uri); ?>&response_type=code&scope=identify%20email" class="text-mocha-blue">Login with Discord</a><br>
+                    <a href="misc/login2.php" class="text-mocha-blue">Login with Username and Password</a><br>
+                    <a href="misc/login3.php" class="text-mocha-blue">Login with a token</a>
             <?php endif; ?>
         </div>
     </div>
@@ -781,11 +819,11 @@ if (
     <?php if ($current_user): ?>
         <div class="mt-4 flex">
             <!-- Side Panel -->
-            <div class="w-1/4 bg-gray-800 p-4 rounded-lg shadow">
-                <a href="/" class="block text-blue-400 mb-2">Home</a>
-                <a href="/?profile=<?php echo $current_user; ?>" class="block text-blue-400 mb-2">Profile</a>
-                <a href="/?settings" class="block text-blue-400 mb-2">Settings</a>
-                <a href="/other/other-pages.html" class="block text-blue-400 mb-2">Other pages</a>
+            <div class="w-1/4 bg-mocha-surface0 p-4 rounded-lg shadow">
+                <a href="/" class="block text-mocha-blue mb-2">Home</a>
+                <a href="/?profile=<?php echo $current_user; ?>" class="block text-mocha-blue mb-2">Profile</a>
+                <a href="/?settings" class="block text-mocha-blue mb-2">Settings</a>
+                <a href="/other/other-pages.html" class="block text-mocha-blue mb-2">Other pages</a>
                 
                 <!-- Admin Actions -->
                 <?php if (
@@ -793,12 +831,12 @@ if (
                     !empty($accounts[$current_user]["admin"])
                 ): ?>
                     <!-- View Users (admin) -->
-                    <a href="?action=view_users" class="block text-blue-400 mb-2">View Users</a>
+                    <a href="?action=view_users" class="block text-mocha-blue mb-2">View Users</a>
 
                     <!-- Generate Token (admin) -->
-                    <a href="?action=gen_token" class="block text-blue-400 mb-2">Generate Token</a>
+                    <a href="?action=gen_token" class="block text-mocha-blue mb-2">Generate Token</a>
                 <?php endif; ?>
-                <a href="/other/donate.html" class="block text-blue-400 mb-2">Donate</a>
+                <a href="/other/donate.html" class="block text-mocha-blue mb-2">Donate</a>
             </div>
             
             <!-- Main Content -->
@@ -808,7 +846,7 @@ if (
                     <?php $profile_user = $_GET["profile"];
                     if (isset($accounts[$profile_user])): ?>
                             <!-- The user exists -->
-                            <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow">
+                            <div class="mt-4 bg-mocha-surface0 p-4 rounded-lg shadow">
                                 <h2 class="text-xl font-bold mb-4">
                                     <?php echo htmlspecialchars($accounts[$profile_user]["display_name"]); ?>'s Profile
                                 </h2>
@@ -843,19 +881,19 @@ if (
                                 <!-- Show posts/replies button -->
                                 <div class="flex space-x-4 mb-4">
                                     <!--posts -->
-                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=posts" class="px-4 py-2 bg-blue-500 text-white rounded">Posts</a>
+                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=posts" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Posts</a>
                                     <!-- Replies -->
-                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=replies" class="px-4 py-2 bg-gray-500 text-white rounded">Replies</a>
+                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=replies" class="px-4 py-2 bg-mocha-surface1 text-mocha-text rounded">Replies</a>
                                 </div>
 
                             <!-- Edit Profile/Follow/Unfollow Button -->
                             <?php if ($profile_user == $current_user): ?>
-                                <button onclick="document.getElementById('editProfileModal').style.display='block'" class="px-4 py-2 bg-blue-500 text-white rounded">Edit profile</button>
+                                <button onclick="document.getElementById('editProfileModal').style.display='block'" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Edit profile</button>
                             <?php else: ?>
                                 <?php if (in_array($profile_user, $accounts[$current_user]["following"])): ?>
-                                    <a href="/?unfollow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-red-500 text-white rounded">Unfollow</a>
+                                    <a href="/?unfollow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-mocha-red text-mocha-text rounded">Unfollow</a>
                                 <?php else: ?>
-                                    <a href="/?follow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-blue-500 text-white rounded">Follow</a>
+                                    <a href="/?follow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Follow</a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
@@ -896,16 +934,16 @@ if (
                                         <?php if (isset($post["replying_to"]) && $post["replying_to"] !== ""): ?>
                                             <!-- I dont even want to comment this smh -->
                                             <?php $original_post = $posts[$post["replying_to"]]; ?>
-                                            <div class="mb-4 p-4 bg-gray-800 rounded-lg shadow">
+                                            <div class="mb-4 p-4 bg-mocha-surface0 rounded-lg shadow">
                                                 <div class="flex items-center mb-2">
                                                     <img src="<?php echo htmlspecialchars($original_post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                                                     <div>
                                                         <span class="font-bold">
-                                                            <a href="/?profile=<?php echo urlencode($original_post["username"]); ?>" class="text-blue-400">
+                                                            <a href="/?profile=<?php echo urlencode($original_post["username"]); ?>" class="text-mocha-blue">
                                                                 <?php echo htmlspecialchars($original_post["display_name"]); ?>
                                                             </a>
                                                         </span>
-                                                        <span class="text-gray-400">@<?php echo htmlspecialchars($original_post["username"]); ?> · <?php echo formatTime($original_post["timestamp"]); ?></span>
+                                                        <span class="text-mocha-subtext0">@<?php echo htmlspecialchars($original_post["username"]); ?> · <?php echo formatTime($original_post["timestamp"]); ?></span>
                                                     </div>
                                                 </div>
 
@@ -916,12 +954,12 @@ if (
                                                     </a>
                                                 <?php endif; ?>
 
-                                                <div class="mt-4 p-4 bg-gray-700 rounded-lg shadow">
+                                                <div class="mt-4 p-4 bg-mocha-surface1 rounded-lg shadow">
                                                     <div class="flex items-center mb-2">
                                                         <img src="<?php echo htmlspecialchars($post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                                                         <div>
                                                             <span class="font-bold"><?php echo htmlspecialchars($post["display_name"]); ?></span>
-                                                            <span class="text-gray-400">@<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?></span>
+                                                            <span class="text-mocha-subtext0">@<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?></span>
                                                         </div>
                                                     </div>
 
@@ -934,12 +972,12 @@ if (
                                                 </div>
                                             </div>
                                         <?php else: ?>
-                                            <div class="mb-4 p-4 bg-gray-800 rounded-lg shadow">
+                                            <div class="mb-4 p-4 bg-mocha-surface0 rounded-lg shadow">
                                                 <div class="flex items-center mb-2">
                                                     <img src="<?php echo htmlspecialchars($post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                                                     <div>
                                                         <span class="font-bold"><?php echo htmlspecialchars($post["display_name"]); ?></span>
-                                                        <span class="text-gray-400">@<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?></span>
+                                                        <span class="text-mocha-subtext0">@<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?></span>
                                                     </div>
                                                 </div>
 
@@ -954,12 +992,12 @@ if (
                                                 <!-- Like,Reply and Delete Button -->
                                                 <div class="flex space-x-4">
                                                     <!-- Likes -->
-                                                    <a href="/?like=<?php echo $post["id"]; ?>" class="text-blue-400">
+                                                    <a href="/?like=<?php echo $post["id"]; ?>" class="text-mocha-blue">
                                                         Like (<?php echo $post["likes"]; ?>)
                                                     </a>
 
                                                     <!-- Replies -->
-                                                    <button onclick="openReplies('<?php echo $post["id"]; ?>')" class="text-blue-400">
+                                                    <button onclick="openReplies('<?php echo $post["id"]; ?>')" class="text-mocha-blue">
                                                         Replies (<?php echo count($post["replies"]); ?>)
                                                     </button>
 
@@ -968,7 +1006,7 @@ if (
                                                         $post["username"] == $current_user ||
                                                         $current_user == $accounts[$current_user]["admin"]
                                                     ): ?>
-                                                        <a href="/?delete=<?php echo $post["id"]; ?>" class="text-red-400">
+                                                        <a href="/?delete=<?php echo $post["id"]; ?>" class="text-mocha-red">
                                                             Delete
                                                         </a>
                                                     <?php endif; ?>
@@ -990,7 +1028,7 @@ if (
                 <!-- Show Settings/Main content -->
                 <?php elseif (isset($_GET["settings"])): ?>
                     <!-- Settings -->
-                    <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="mt-4 bg-mocha-surface0 p-4 rounded-lg shadow">
                         <h2 class="text-xl font-bold mb-4">Settings</h2>
 
                         <!-- Verification -->
@@ -1001,7 +1039,7 @@ if (
                         <!-- Discord -->
                         <h1 class="text-xl font-bold mb-4">Discord</h1>
                         <p>Join the Discord!</p><br>
-                        <a href="https://discord.gg/B7mSHBBwNz" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded">Join Now</a><br>
+                        <a href="https://discord.gg/B7mSHBBwNz" target="_blank" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Join Now</a><br>
                             
                         <!-- Custom Name -->
                         <br><h1 class="text-xl font-bold mb-4">Custom Name</h1>
@@ -1013,13 +1051,13 @@ if (
                             <input type="hidden" name="delete_account" value="1">
                             <div class="mb-4">
                                 <!-- Confirm Deletion -->
-                                <label class="block text-gray-400">Confirm the deletion of your account:</label>
-                                <input type="text" name="confirm_delete" placeholder="Enter 'yes' to confirm the deletion (Your posts are being saved for approximately 1 day if you change your mind. Your account settings are not being saved.)" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <label class="block text-mocha-subtext0">Confirm the deletion of your account:</label>
+                                <input type="text" name="confirm_delete" placeholder="Enter 'yes' to confirm the deletion (Your posts are being saved for approximately 1 day if you change your mind. Your account settings are not being saved.)" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                             </div>
                             <!-- Delete Account -->
                             <div class="flex items-center justify-between">
-                                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Delete account</button>
-                                <a href="/" class="text-gray-400">Cancel</a>
+                                <button type="submit" class="px-4 py-2 bg-mocha-red text-mocha-text rounded">Delete account</button>
+                                <a href="/" class="text-mocha-subtext0">Cancel</a>
                             </div>
                         </form>
                         <br>
@@ -1030,16 +1068,16 @@ if (
                         <h2 class="text-xl font-bold mb-4">Create a new post</h2>
                         <form action="/" method="post">
                             <!-- Textarea -->
-                            <textarea name="content" id="content" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="What do you want to post?" oninput="updateCharacterCount()"></textarea>
+                            <textarea name="content" id="content" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="What do you want to post?" oninput="updateCharacterCount()"></textarea>
                                 
                             <!-- Char counter -->
-                            <small id="charCount" class="text-gray-400">0/260 characters</small>
+                            <small id="charCount" class="text-mocha-subtext0">0/260 characters</small>
                                 
                             <!-- Image -->
-                            <input type="url" name="image_url" placeholder="Image URL (optional)" class="mt-2 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="url" name="image_url" placeholder="Image URL (optional)" class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                                 
                             <!-- Create post button -->
-                            <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Create post</button>
+                            <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-text rounded">Create post</button>
                             <input type="hidden" name="replying_to" id="replying_to" value="">
                         </form>
                     </div>
@@ -1051,13 +1089,13 @@ if (
                             <?php if (!empty($suggested_posts)): ?>
                                 <?php foreach ($suggested_posts as $post_id): ?>
                                     <?php $post = $posts[$post_ids[$post_id]]; ?>
-                                        <div class="mb-4 p-4 bg-gray-800 rounded-lg shadow">
+                                        <div class="mb-4 p-4 bg-mocha-surface0 rounded-lg shadow">
                                             <!-- Post Body or smth -->
                                             <div class="flex items-center mb-2">
                                                 <img src="<?php echo htmlspecialchars($post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                                                 <div>
                                                     <span class="font-bold">
-                                                        <a href="/?profile=<?php echo urlencode($post["username"]); ?>" class="text-blue-400">
+                                                        <a href="/?profile=<?php echo urlencode($post["username"]); ?>" class="text-mocha-blue">
                                                             <?php echo htmlspecialchars($post["display_name"]); ?>
                                                         </a>
                                                     </span>
@@ -1080,7 +1118,7 @@ if (
                                                     <?php endif; ?>
 
                                                     <!-- Time Formating -->
-                                                    <span class="text-gray-400">
+                                                    <span class="text-mocha-subtext0">
                                                         @
                                                         <?php echo htmlspecialchars($post["username"]); ?>
                                                          · 
@@ -1088,7 +1126,7 @@ if (
                                                     </span>
 
                                                     <!-- Report -->
-                                                    <span class="text-red-400"><a href="?report_post=<?php echo(htmlspecialchars($post["id"])); ?>">
+                                                    <span class="text-mocha-red"><a href="?report_post=<?php echo(htmlspecialchars($post["id"])); ?>">
                                                         Report
                                                     </a>
                                                 </span>
@@ -1108,12 +1146,12 @@ if (
                                             <!-- Like, Reply and delete buttons -->
                                             <div class="flex space-x-4">
                                                 <!-- Like -->
-                                                <a href="/?like=<?php echo $post["id"]; ?>" class="text-blue-400">
+                                                <a href="/?like=<?php echo $post["id"]; ?>" class="text-mocha-blue">
                                                     Like (<?php echo $post["likes"]; ?>)
                                                 </a>
 
                                                 <!-- Reply -->
-                                                <button onclick="openReplies('<?php echo $post["id"]; ?>')" class="text-blue-400">
+                                                <button onclick="openReplies('<?php echo $post["id"]; ?>')" class="text-mocha-blue">
                                                     Replies (<?php echo count($post["replies"]); ?>)
                                                 </button>
 
@@ -1122,7 +1160,7 @@ if (
                                                     $post["username"] == $current_user ||
                                                     $current_user == $accounts[$current_user]["admin"]
                                                 ): ?>
-                                                    <a href="/?delete=<?php echo $post["id"]; ?>" class="text-red-400">
+                                                    <a href="/?delete=<?php echo $post["id"]; ?>" class="text-mocha-red">
                                                         Delete
                                                     </a>
                                                 <?php endif; ?>
@@ -1144,7 +1182,7 @@ if (
     </div>
 
     <!-- Copyright -->
-    <div class="mt-auto bottom-0 left-0 w-full text-center bg-gray-800 text-white p-2">
+    <div class="mt-auto bottom-0 left-0 w-full text-center bg-mocha-surface0 text-mocha-text p-2">
         <a href="https://ploszukiwacz.is-a.dev" target="_blank" class="underline">PlOszukiwacz</a> &copy; 2025 - <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" class="underline">AGPL</a> - <a href="https://github.com/ploszukiwaczdev/femboysocial" target="_blank" class="underline">Github</a><br>
         <a href="other/credits.html" style="color: #637bb0;" class="underline">Credit</a>
     </div>
@@ -1157,7 +1195,7 @@ if (
             <form action="/" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="edit_profile" value="1">
                 <div class="mb-4">
-                    <label class="block text-gray-400">Displayname:</label>
+                    <label class="block text-mocha-subtext0">Displayname:</label>
                     <input type="text" name="display_name" value="<?php
                             // Check if $current_user is set and exists in $accounts
                             if (isset($current_user) && isset($accounts[$current_user]) && is_array($accounts[$current_user])) {
@@ -1167,11 +1205,11 @@ if (
                                 // Default value if the current user or their display_name is not set
                                 echo 'The displayname could not be displayed. PLEASE REPORT THIS IS THIS 99% A BUG AND SHOULD NOT HAPPEN';
                             }
-                        ?>" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        ?>" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-400">Bio:</label>
-                    <textarea name="bio" rows="4" maxlength="60" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <label class="block text-mocha-subtext0">Bio:</label>
+                    <textarea name="bio" rows="4" maxlength="60" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                         <?php
                         // Check if current_user is set and exists in $accounts
                         if (isset($current_user) && isset($accounts[$current_user]) && is_array($accounts[$current_user]) && isset($accounts[$current_user]["bio"])) {
@@ -1185,8 +1223,8 @@ if (
 
                 </div>
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
-                    <a href="/" class="text-gray-400">Cancel</a>
+                    <button type="submit" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Save</button>
+                    <a href="/" class="text-mocha-subtext0">Cancel</a>
                 </div>
             </form>
         </div>
@@ -1197,8 +1235,8 @@ if (
             <span class="close" onclick="document.getElementById('repliesModal').style.display='none'">&times;</span>
             <div id="repliesContent"></div>
             <form action="/" method="post">
-                <textarea name="content" id="replyContent" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Write your reply..."></textarea>
-                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Reply</button>
+                <textarea name="content" id="replyContent" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="Write your reply..."></textarea>
+                <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-text rounded">Reply</button>
                 <input type="hidden" name="replying_to" id="replyingTo" value="">
             </form>
 
@@ -1215,7 +1253,7 @@ if (
         <?php foreach ($posts ?? [] as $post): ?>
         if (postId === '<?php echo(htmlspecialchars($post["id"])); ?>') {
             content.innerHTML += `
-                <div class="p-5 bg-gray-800 rounded-lg shadow mb-5">
+                <div class="p-5 bg-mocha-surface0 rounded-lg shadow mb-5">
                     <div class="flex items-center mb-2">
                         <img src="<?php echo htmlspecialchars($post["profile_picture"]); ?>" alt="image" class="w-8 h-8 rounded-full mr-2">
                         <div>
@@ -1224,7 +1262,7 @@ if (
                                     <?php echo htmlspecialchars($post["display_name"]); ?>
                                 </a>
                             </span>
-                            <span class="text-gray-400">
+                            <span class="text-mocha-subtext0">
                                 @<?php echo htmlspecialchars($post["username"]); ?> · <?php echo formatTime($post["timestamp"]); ?>
                             </span>
                         </div>
@@ -1243,13 +1281,13 @@ if (
             <?php foreach ($post["replies"] as $reply_id): ?>
             var reply = <?php echo json_encode($posts[$reply_id]); ?>;
             content.innerHTML += `
-                <div class="p-3 bg-gray-700 rounded-lg shadow mb-3 ml-4">
+                <div class="p-3 bg-mocha-surface1 rounded-lg shadow mb-3 ml-4">
                 <div class="flex items-center mb-2">
                       <img src="` + reply.profile_picture + `" alt="image" class="w-8 h-8 rounded-full mr-2">
                       <span class="font-bold">
                           <a href="/?profile=` + reply.username + `">` + reply.display_name + ` </a>
                       </span>
-                      <span class="text-gray-400">
+                      <span class="text-mocha-subtext0">
                           &nbsp;@` + reply.username + ` · ` + new Date(reply.timestamp * 1000).toLocaleString("en-GB", {
                               hourCycle: 'h23',
                               year: 'numeric',
@@ -1265,13 +1303,13 @@ if (
 
                     <p class="mb-2">` + reply.content + `</p>
                     <div class="flex space-x-4">
-                        <a href="/?like=` + reply.id + `" class="text-blue-400">Like (` + (reply.likes || 0) + `)</a>
+                        <a href="/?like=` + reply.id + `" class="text-mocha-blue">Like (` + (reply.likes || 0) + `)</a>
                         <?php if (
                             isset($current_user, $post["username"]) && 
                             ($current_user == $post["username"] || 
                             (isset($accounts[$current_user]["admin"]) && $accounts[$current_user]["admin"]))
                         ): ?>
-                        <a href="/?delete=` + reply.id + `" class="text-red-400">Delete</a>
+                        <a href="/?delete=` + reply.id + `" class="text-mocha-red">Delete</a>
                         <?php endif; ?>
                     </div>
                 </div>
