@@ -713,7 +713,7 @@ if (
     <link rel="manifest" href="/assets/favicons/site.webmanifest" />
 
     <!-- Metadata???? -->
-    <meta property="description" content="Femboy Social is a microblogging social media developed by PlOszukiwacz." />
+    <meta name="description" content="Femboy Social is a microblogging social media developed by PlOszukiwacz." />
     <meta property="og:title" content="Femboy Social" />
     <meta property="og:description" content="Femboy Social is a microblogging social media developed by PlOszukiwacz." />
     <meta property="og:type" content="website" />
@@ -765,7 +765,7 @@ if (
         <div>
             <?php if ($current_user): ?>
                 <span class="mr-4">
-                    Logged in as: <?php echo htmlspecialchars($accounts[$current_user]["display_name"]); ?> · @<?php echo htmlspecialchars($current_user); ?>
+                    Logged in as: <?php echo htmlspecialchars($accounts[$current_user]["display_name"]); ?>
                 </span>
                 <a href="/?logout" class="text-blue-500">Logout</a>
             <?php else: ?>
@@ -1030,7 +1030,7 @@ if (
                         <h2 class="text-xl font-bold mb-4">Create a new post</h2>
                         <form action="/" method="post">
                             <!-- Textarea -->
-                            <textarea name="content" id="content" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="What do you wanna post?" oninput="updateCharacterCount()"></textarea>
+                            <textarea name="content" id="content" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-gray-900 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="What do you want to post?" oninput="updateCharacterCount()"></textarea>
                                 
                             <!-- Char counter -->
                             <small id="charCount" class="text-gray-400">0/260 characters</small>
@@ -1138,7 +1138,7 @@ if (
                 </div>
             </div>
         <?php else: ?>
-            <p>You need to login if you wanna see the posts or wanna see a profile. </p>
+            <p>You need to login if you want to see the posts or want to see a profile. </p>
             <p>Please note that logging on to this Service "Femboy Social", you agree to the <a href="/other/tou.html" target="_blank" class="underline">Terms of Use</a> and that we use cookies to remember that you are logged in.</p>
         <?php endif; ?>
     </div>
