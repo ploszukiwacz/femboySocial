@@ -1267,8 +1267,9 @@ if (
                     <div class="flex space-x-4">
                         <a href="/?like=` + reply.id + `" class="text-blue-400">Like (` + (reply.likes || 0) + `)</a>
                         <?php if (
-                            $current_user == $post["username"] ||
-                            $accounts[$current_user]["admin"]
+                            isset($current_user, $post["username"]) && 
+                            ($current_user == $post["username"] || 
+                            (isset($accounts[$current_user]["admin"]) && $accounts[$current_user]["admin"]))
                         ): ?>
                         <a href="/?delete=` + reply.id + `" class="text-red-400">Delete</a>
                         <?php endif; ?>
