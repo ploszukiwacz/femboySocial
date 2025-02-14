@@ -1,0 +1,27 @@
+/* Critical styles that should load first */
+:root {
+    --mocha-base: #1e1e2e;
+    --mocha-text: #cdd6f4;
+    --mocha-surface0: #313244;
+}
+
+body {
+    background-color: var(--mocha-base);
+    color: var(--mocha-text);
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.loading-placeholder {
+    background: var(--mocha-surface0);
+    border-radius: 0.5rem;
+    min-height: 100px;
+    margin: 1rem 0;
+}

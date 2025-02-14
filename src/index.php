@@ -722,43 +722,69 @@ if (
     <meta property="og:site_name" content="Femboy Social">
 
     <title>Femboy Social (BETA)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Resource hints -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="/assets/css/critical.css">
+    
+    <!-- Async load Tailwind -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <script defer src="https://cdn.tailwindcss.com" onload="initTailwind()"></script>
+    
+    <!-- Loading indicator -->
+    <noscript>
+        <style>
+            .loading-placeholder { display: none; }
+        </style>
+    </noscript>
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        mocha: {
-                            rosewater: '#f5e0dc',
-                            flamingo: '#f2cdcd',
-                            pink: '#f5c2e7',
-                            mauve: '#cba6f7',
-                            red: '#f38ba8',
-                            maroon: '#eba0ac',
-                            peach: '#fab387',
-                            yellow: '#f9e2af',
-                            green: '#a6e3a1',
-                            teal: '#94e2d5',
-                            sky: '#89dceb',
-                            sapphire: '#74c7ec',
-                            blue: '#89b4fa',
-                            lavender: '#b4befe',
-                            text: '#cdd6f4',
-                            subtext1: '#bac2de',
-                            subtext0: '#a6adc8',
-                            overlay2: '#9399b2',
-                            overlay1: '#7f849c',
-                            overlay0: '#6c7086',
-                            surface2: '#585b70',
-                            surface1: '#45475a',
-                            surface0: '#313244',
-                            base: '#1e1e2e',
-                            mantle: '#181825',
-                            crust: '#11111b'
+        function initTailwind() {
+            // Initialize Tailwind with config after load
+            // tailwind.config = {
+            //     theme: { extend: { colors: { mocha: // ...existing color config... } } }
+            // };
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            mocha: {
+                                rosewater: '#f5e0dc',
+                                flamingo: '#f2cdcd',
+                                pink: '#f5c2e7',
+                                mauve: '#cba6f7',
+                                red: '#f38ba8',
+                                maroon: '#eba0ac',
+                                peach: '#fab387',
+                                yellow: '#f9e2af',
+                                green: '#a6e3a1',
+                                teal: '#94e2d5',
+                                sky: '#89dceb',
+                                sapphire: '#74c7ec',
+                                blue: '#89b4fa',
+                                lavender: '#b4befe',
+                                text: '#cdd6f4',
+                                subtext1: '#bac2de',
+                                subtext0: '#a6adc8',
+                                overlay2: '#9399b2',
+                                overlay1: '#7f849c',
+                                overlay0: '#6c7086',
+                                surface2: '#585b70',
+                                surface1: '#45475a',
+                                surface0: '#313244',
+                                base: '#1e1e2e',
+                                mantle: '#181825',
+                                crust: '#11111b'
+                            }
                         }
                     }
                 }
             }
+            // Remove loading placeholders
+            document.querySelectorAll('.loading-placeholder').forEach(el => el.remove());
         }
     </script>
     <link rel="stylesheet" href="index.css">
@@ -881,19 +907,19 @@ if (
                                 <!-- Show posts/replies button -->
                                 <div class="flex space-x-4 mb-4">
                                     <!--posts -->
-                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=posts" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Posts</a>
+                                    <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=posts" class="px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Posts</a>
                                     <!-- Replies -->
                                     <a href="/?profile=<?php echo urlencode($profile_user); ?>&section=replies" class="px-4 py-2 bg-mocha-surface1 text-mocha-text rounded">Replies</a>
                                 </div>
 
                             <!-- Edit Profile/Follow/Unfollow Button -->
                             <?php if ($profile_user == $current_user): ?>
-                                <button onclick="document.getElementById('editProfileModal').style.display='block'" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Edit profile</button>
+                                <button onclick="document.getElementById('editProfileModal').style.display='block'" class="px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Edit profile</button>
                             <?php else: ?>
                                 <?php if (in_array($profile_user, $accounts[$current_user]["following"])): ?>
                                     <a href="/?unfollow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-mocha-red text-mocha-text rounded">Unfollow</a>
                                 <?php else: ?>
-                                    <a href="/?follow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Follow</a>
+                                    <a href="/?follow=<?php echo urlencode($profile_user); ?>" class="px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Follow</a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
@@ -1039,7 +1065,7 @@ if (
                         <!-- Discord -->
                         <h1 class="text-xl font-bold mb-4">Discord</h1>
                         <p>Join the Discord!</p><br>
-                        <a href="https://discord.gg/B7mSHBBwNz" target="_blank" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Join Now</a><br>
+                        <a href="https://discord.gg/B7mSHBBwNz" target="_blank" class="px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Join Now</a><br>
                             
                         <!-- Custom Name -->
                         <br><h1 class="text-xl font-bold mb-4">Custom Name</h1>
@@ -1077,7 +1103,7 @@ if (
                             <input type="url" name="image_url" placeholder="Image URL (optional)" class="mt-2 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50">
                                 
                             <!-- Create post button -->
-                            <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-text rounded">Create post</button>
+                            <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Create post</button>
                             <input type="hidden" name="replying_to" id="replying_to" value="">
                         </form>
                     </div>
@@ -1177,14 +1203,14 @@ if (
             </div>
         <?php else: ?>
             <p>You need to login if you want to see the posts or want to see a profile. </p>
-            <p>Please note that logging on to this Service "Femboy Social", you agree to the <a href="/other/tou.html" target="_blank" class="underline">Terms of Use</a> and that we use cookies to remember that you are logged in.</p>
+            <p>Please note that logging on to this Service "Femboy Social", you agree to the <a href="/other/tou.html" target="_blank" class="underline text-mocha-mauve hover:text-mocha-pink">Terms of Use</a> and that we use cookies to remember that you are logged in.</p>
         <?php endif; ?>
     </div>
 
     <!-- Copyright -->
-    <div class="mt-auto bottom-0 left-0 w-full text-center bg-mocha-surface0 text-mocha-text p-2">
-        <a href="https://ploszukiwacz.is-a.dev" target="_blank" class="underline">PlOszukiwacz</a> &copy; 2025 - <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" class="underline">AGPL</a> - <a href="https://github.com/ploszukiwaczdev/femboysocial" target="_blank" class="underline">Github</a><br>
-        <a href="other/credits.html" style="color: #637bb0;" class="underline">Credit</a>
+    <div class="mt-auto bottom-0 left-0 w-full text-center bg-mocha-mantle text-mocha-text p-2">
+        <a href="https://ploszukiwacz.is-a.dev" target="_blank" class="underline text-mocha-mauve hover:text-mocha-pink">PlOszukiwacz</a> &copy; 2025 - <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" class="underline text-mocha-mauve hover:text-mocha-pink">AGPL</a> - <a href="https://github.com/ploszukiwaczdev/femboysocial" target="_blank" class="underline text-mocha-mauve hover:text-mocha-pink">Github</a><br>
+        <a href="other/credits.html" class="underline text-mocha-mauve hover:text-mocha-pink">Credit</a>
     </div>
 
     <!-- Modals -->
@@ -1223,7 +1249,7 @@ if (
 
                 </div>
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="px-4 py-2 bg-mocha-blue text-mocha-text rounded">Save</button>
+                    <button type="submit" class="px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Save</button>
                     <a href="/" class="text-mocha-subtext0">Cancel</a>
                 </div>
             </form>
@@ -1236,7 +1262,7 @@ if (
             <div id="repliesContent"></div>
             <form action="/" method="post">
                 <textarea name="content" id="replyContent" rows="4" maxlength="260" class="mt-1 block w-full rounded-md bg-mocha-mantle border-mocha-surface2 text-mocha-text shadow-sm focus:border-mocha-mauve focus:ring focus:ring-mocha-mauve focus:ring-opacity-50" placeholder="Write your reply..."></textarea>
-                <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-text rounded">Reply</button>
+                <button type="submit" class="mt-2 px-4 py-2 bg-mocha-blue text-mocha-crust rounded hover:bg-mocha-sapphire">Reply</button>
                 <input type="hidden" name="replying_to" id="replyingTo" value="">
             </form>
 
