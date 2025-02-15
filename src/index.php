@@ -1,6 +1,6 @@
 <?php
 if (!is_dir('data')) {
-    mkdir('data', 0755, true);
+    mkdir('data', 0700, true);
 }
 
 if (!is_file('data/.env')) {
@@ -851,6 +851,7 @@ if (
                 <a href="/" class="block text-mocha-blue mb-2">Home</a>
                 <a href="/?profile=<?php echo $current_user; ?>" class="block text-mocha-blue mb-2">Profile</a>
                 <a href="/?settings" class="block text-mocha-blue mb-2">Settings</a>
+                <a href="/?stats" class="block text-mocha-blue mb-2">Stats</a>
                 <a href="/other/other-pages.html" class="block text-mocha-blue mb-2">Other pages</a>
                 
                 <!-- Admin Actions -->
@@ -1097,6 +1098,41 @@ if (
                             </div>
                         </form>
                         <br>
+                    </div>
+                <?php elseif (isset($_GET["stats"])): ?>
+                    <!-- Stats -->
+                    <div class="mt-4 bg-mocha-surface0 p-4 rounded-lg shadow">
+                        <h2 class="text-xl font-bold mb-4">Global Stats</h2>
+                        <p>Posts and replies: <?php echo count($posts); ?></p>
+                        <p>Posts: <?php echo count(array_filter($posts, function ($post) {
+                            return $post["replying_to"] === null || $post["replying_to"] === "";
+                        })); ?></p>
+                        <p>Replies: <?php echo count(array_filter($posts, function ($post) {
+                            return $post["replying_to"] !== null && $post["replying_to"] !== "";
+                        })); ?></p>
+                        <p>Accounts: <?php echo count($accounts); ?></p>
+                    </div>
+                    <div class="mt-4 bg-mocha-surface0 p-4 rounded-lg shadow">
+                        <h2 class="text-xl font-bold mb-4">Your Stats</h2>
+                        <p>Posts and replies: <?php echo count(array_filter($posts, function ($post) use ($current_user) {
+                            return $post["username"] === $current_user;
+                        })); ?></p>
+                        <p>Posts: <?php echo count(array_filter($posts, function ($post) use ($current_user) {
+                            return $post["username"] === $current_user &&
+                                ($post["replying_to"] === null || $post["replying_to"] === "");
+                        })); ?></p>
+                        <p>Replies: <?php echo count(array_filter($posts, function ($post) use ($current_user) {
+                            return $post["username"] === $current_user &&
+                                $post["replying_to"] !== null &&
+                                $post["replying_to"] !== "";
+                        })) ?>
+                        <p>Followers: <?php echo count($accounts["$current_user"]["followers"]); ?></p>
+                        <p>Following: <?php echo count($accounts["$current_user"]["following"]); ?></p>
+                        <p>Verified: <?php echo($accounts[$current_user]["verified"] ? "Yes" : "No"); ?></p>
+                        <p>Supporter: <?php echo($accounts[$current_user]["supporter"] ? "Yes" : "No"); ?></p>
+                        <p>Developer: <?php echo($accounts[$current_user]["developer"] ? "Yes" : "No"); ?></p>
+                        <p>Beta User: <?php echo($accounts[$current_user]["beta_user"] ? "Yes" : "No"); ?></p>
+                        <p>Admin: <?php echo($accounts[$current_user]["admin"] ? "Yes" : "No"); ?></p>
                     </div>
                 <?php else: ?>
                     <!-- Create post -->
