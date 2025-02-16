@@ -712,6 +712,12 @@ if (
     <meta name="apple-mobile-web-app-title" content="FS" />
     <link rel="manifest" href="/assets/favicons/site.webmanifest" />
 
+    <scirpt>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('data/sw/pwabuilder.js')
+        }
+    </script>
+
     <!-- Metadata???? -->
     <meta name="description" content="Femboy Social is a microblogging social media developed by PlOszukiwacz." />
     <meta property="og:title" content="Femboy Social" />
