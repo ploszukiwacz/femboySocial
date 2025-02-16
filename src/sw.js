@@ -42,7 +42,7 @@ self.addEventListener('fetch', (event) => {
         return networkResp;
       } catch (error) {
 
-        const cache = await caches.open(CACHE);
+        const cache = await caches.open(CACHE_NAME);
         const cachedResp = await cache.match('offline.html');
         return cachedResp;
       }
