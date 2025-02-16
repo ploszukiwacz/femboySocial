@@ -1,7 +1,6 @@
 {
   "name": "Femboy Social",
   "short_name": "FBSocial",
-  "description": "Microblogging Social media written in php.",
   "icons": [
     {
       "src": "/assets/favicons/web-app-manifest-192x192.png",
@@ -20,5 +19,31 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "start_url": "https://fs.ploszukiwacz.is-a.dev",
-  "id": "com.ploszukiwacz.femboysocial.beta"
+  "description": "Microblogging Social media written in php.",
+  "id": "com.ploszukiwacz.femboysocial.beta",
+  "dir": "auto",
+  "scope": "f the user navigates outside of your app's scope, they will be navigated to a normal browser window. scope can often just be set to the base",
+  "lang": "en",
+  "orientation": "landscape",
+  "shortcuts": [
+    {
+      "name": "Settings",
+      "url": "/?settings",
+      "description": "View your settings"
+    },
+    {
+      "name": "Stats",
+      "url": "/?stats",
+      "description": "View stats"
+    },
+    {
+      "name": "Donate",
+      "url": "/other/donate.html",
+      "description": "Help me run femboySocial"
+    }
+  ],
+  "categories": [
+    "entertainment",
+    "social"
+  ]
 }

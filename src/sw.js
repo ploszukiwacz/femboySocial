@@ -4,8 +4,11 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox
 
 const CACHE = "femboySocial";
 
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "offline.html";
+// Add whichever assets you want to pre-cache here:
+const PRECACHE_ASSETS = [
+    '/assets/',
+    '/offline.html'
+]
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -13,11 +16,12 @@ self.addEventListener("message", (event) => {
   }
 });
 
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
-  );
+// Listener for the install event - pre-caches our assets list on service worker install.
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      cache.addAll(PRECACHE_ASSETS);
+  })());
 });
 
 if (workbox.navigationPreload.isSupported()) {
@@ -39,7 +43,7 @@ self.addEventListener('fetch', (event) => {
       } catch (error) {
 
         const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
+        const cachedResp = await cache.match('offline.html');
         return cachedResp;
       }
     })());
