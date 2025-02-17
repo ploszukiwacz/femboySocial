@@ -2,50 +2,77 @@
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE_NAME = "femboySocial";
+const CACHE_VERSION = 'v1';
+const CACHE_NAME = `femboySocial-${CACHE_VERSION}`;
 
-// Add whichever assets you want to pre-cache here:
-const PRECACHE_ASSETS = [
-    '/assets/',
-    '/offline.html'
-]
+// Static assets to pre-cache
+const ASSETS_TO_CACHE = [
+  '/offline.html',
+  '/assets',
+];
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-
-// Listener for the install event - pre-caches our assets list on service worker install.
+// Install event - cache static assets
 self.addEventListener('install', event => {
-  event.waitUntil((async () => {
-      const cache = await caches.open(CACHE_NAME);
-      cache.addAll(PRECACHE_ASSETS);
-  })());
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS_TO_CACHE))
+      .then(() => self.skipWaiting())
+  );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
+// Activate event - cleanup old caches
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames
+          .filter(name => name.startsWith('femboySocial-') && name !== CACHE_NAME)
+          .map(name => caches.delete(name))
+      );
+    })
+  );
+});
 
-self.addEventListener('fetch', (event) => {
+// Fetch event - handle offline functionality
+self.addEventListener('fetch', event => {
+  // Handle navigation requests
   if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match('/offline.html'))
+    );
+    return;
+  }
 
-        if (preloadResp) {
-          return preloadResp;
+  // Handle static asset requests
+  if (ASSETS_TO_CACHE.includes(event.request.url.replace(self.location.origin, ''))) {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+    );
+    return;
+  }
+
+  // Network-first strategy for other requests
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Cache successful responses
+        if (response.ok) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
         }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
+  );
+});
 
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE_NAME);
-        const cachedResp = await cache.match('offline.html');
-        return cachedResp;
-      }
-    })());
+// Handle messages from clients
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
