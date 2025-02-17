@@ -16,5 +16,5 @@ A Simpleish WIP microblogging social media in php.
 - [ ] Using postgresql/mysql for the db
 - [ ] Better UI????
 - [X] Setup guide
-- [ ] Better docker-compose
+- [X] Better docker-compose
 - [ ] Fix the password account creator (ongong)

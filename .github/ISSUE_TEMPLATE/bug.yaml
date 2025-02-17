@@ -1,0 +1,46 @@
+name: Bug
+description: Make sure you complete the template. Otherwise, it will be closed without further explanation!
+title: "[Bug Report] <Bug title here>"
+labels: [bug]
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: _Please check the [**issues**](https://github.com/PlOszukiwaczDEV/femboySocial/issues) page to see if someone has already reported the bug. **I DIDN\'T MAKE THIS CHECKBOX FOR COSMETIC.**_
+      options:
+        - label: I have searched the existing issues
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Device information
+      description: "_Please provide the following information:_"
+      value: |
+        - OS: 
+        - Hardware Specs:
+        - Etc:
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe the issue
+      description: _Please attach videos or screenshots if possible_
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: _Please attach videos or screenshots if possible_
+      value: |
+        1. 
+        2.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+    validations:
+      required: false
