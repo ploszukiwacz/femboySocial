@@ -22,7 +22,7 @@
   "description": "Microblogging Social media written in php.",
   "id": "com.ploszukiwacz.femboysocial.beta",
   "dir": "auto",
-  "scope": "f the user navigates outside of your app's scope, they will be navigated to a normal browser window. scope can often just be set to the base",
+  "scope": "https://fs.ploszukiwacz.is-a.dev",
   "lang": "en",
   "orientation": "landscape",
   "shortcuts": [
@@ -45,5 +45,11 @@
   "categories": [
     "entertainment",
     "social"
-  ]
+  ],
+  "display_override": [
+    "fullscreen",
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "prefer_related_applications": false
 }
