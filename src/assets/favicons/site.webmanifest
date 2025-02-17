@@ -51,5 +51,19 @@
     "standalone",
     "window-controls-overlay"
   ],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.discord",
+      "id": "com.discord"
+    }
+  ],
+  "handle_links": "preferred",
+  "scope_extensions": [
+    {"origin": "*.ploszukiwacz.is-a.dev"}
+  ],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
 }

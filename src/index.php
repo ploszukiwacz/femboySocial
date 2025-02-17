@@ -727,7 +727,7 @@ if (
     <meta property="og:url" content="<?php echo htmlspecialchars($uri); ?>"/>
     <meta property="og:image" content="<?php echo htmlspecialchars($uri); ?>/assets/favicons/android-chrome-192x192.png"/>
     <meta property="og:site_name" content="Femboy Social">
-
+ 
     <title>Femboy Social (BETA)</title>
     
     <!-- Resource hints -->
