@@ -1,3 +1,4 @@
+# ARCHIVED, see [femboySocial rewrite](https://github.com/ploszukiwacz/femboySocial-rewrite)
 # femboySocial (BETA)
 A Simpleish WIP microblogging social media in php.
 
